@@ -22,6 +22,7 @@ defmodule POCService.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
+      {:jason, "~> 1.4"},
       {:plug_cowboy, "~> 2.7"}
     ]
   end
