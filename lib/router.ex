@@ -10,7 +10,11 @@ defmodule POCService.Router do
   plug(:dispatch)
 
   get "/" do
-    send_resp(conn, 200, "Welcome!")
+    with body <- WelcomeController.index() do
+      conn
+      |> put_resp_content_type("application/json")
+      |> send_resp(200, body)
+    end
   end
 
   match _ do
