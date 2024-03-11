@@ -1,4 +1,5 @@
 defmodule POCService.Router do
+  use Plug.ErrorHandler
   use Plug.Router
 
   plug(Plug.Parsers,
@@ -9,15 +10,23 @@ defmodule POCService.Router do
   plug(:match)
   plug(:dispatch)
 
-  get "/" do
-    with body <- WelcomeController.index() do
-      conn
-      |> put_resp_content_type("application/json")
-      |> send_resp(200, body)
-    end
-  end
+  get("/bookmarks", do: BookmarksController.get_many(conn))
+
+  get("/health/:path" when path in ~w(live ready), do: HealthController.health(conn, path))
 
   match _ do
-    send_resp(conn, 404, "Route not found")
+    resp_body =
+      %{error: "Route not found"}
+      |> Jason.encode!()
+
+    send_resp(conn, :not_found, resp_body)
+  end
+
+  def handle_errors(conn, %{kind: _kind, reason: _reason, stack: _stack}) do
+    resp_body =
+      %{error: "Something went wrong"}
+      |> Jason.encode!()
+
+    send_resp(conn, conn.status, resp_body)
   end
 end
