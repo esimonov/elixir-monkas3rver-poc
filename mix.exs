@@ -23,6 +23,7 @@ defmodule POCService.MixProject do
   defp deps do
     [
       {:jason, "~> 1.4"},
+      {:logger_json, "~> 5.1"},
       {:plug_cowboy, "~> 2.7"}
     ]
   end
