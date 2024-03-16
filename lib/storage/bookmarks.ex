@@ -14,7 +14,7 @@ defmodule POCService.Storage.MongoDB do
   @doc """
   Returns the list of bookmarks.
   """
-  @spec get_many(:bookmarks) :: {:ok, list(Bookmark)} | {:error, any()}
+  @spec get_many(atom()) :: {:ok, list(Bookmark)} | {:error, any()}
   def get_many(:bookmarks) do
     if :rand.uniform() <= 0.5 do
       {:ok,
