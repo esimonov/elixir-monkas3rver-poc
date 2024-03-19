@@ -3,7 +3,7 @@ defmodule POCService.Producer do
   Produce messages to a topic.
   """
   @callback produce(topic_name :: String.t(), async? :: boolean(), messages :: list()) ::
-              :ok | {:error, any()}
+              {:ok, nil} | {:error, any()}
 end
 
 defmodule POCService.Producer.Kafka do
@@ -14,12 +14,12 @@ defmodule POCService.Producer.Kafka do
   @doc """
   Returns the list of bookmarks.
   """
-  @spec produce(String.t(), boolean(), list()) ::
-          :ok | {:error, any()}
+  @spec produce(String.t(), boolean(), list()) :: {:ok, nil} | {:error, any()}
   def produce(_topic_name, _async?, messages) do
     if :rand.uniform() <= 0.5 do
       Logger.info("Produced messages", messages: messages)
-      :ok
+
+      {:ok, nil}
     else
       {:error, "Kafka error"}
     end

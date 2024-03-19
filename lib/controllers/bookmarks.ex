@@ -9,15 +9,7 @@ defmodule BookmarksController do
 
   def get_many(conn) do
     with {:ok, bookmarks} <- @storage.get_many(:bookmarks),
-         :ok <-
-           @producer.produce("mock.activity-records", false, [
-             %ActivityRecord{
-               endpoint: conn.path_info,
-               method: conn.method,
-               resp_code: :ok,
-               ts: DateTime.utc_now()
-             }
-           ]) do
+         {:ok, nil} <- produce_activity_record(conn) do
       conn
       |> put_resp_content_type("application/json")
       |> send_resp(:ok, Jason.encode!(bookmarks))
@@ -29,5 +21,16 @@ defmodule BookmarksController do
         |> put_resp_content_type("application/json")
         |> send_resp(:internal_server_error, Jason.encode!(%{error: reason}))
     end
+  end
+
+  defp produce_activity_record(conn) do
+    @producer.produce("mock.activity-records", false, [
+      %ActivityRecord{
+        endpoint: conn.path_info,
+        method: conn.method,
+        resp_code: :ok,
+        ts: DateTime.utc_now()
+      }
+    ])
   end
 end
