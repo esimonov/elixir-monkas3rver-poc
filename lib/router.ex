@@ -10,6 +10,8 @@ defmodule POCService.Router do
   plug(:match)
   plug(:dispatch)
 
+  get("/activity-records", do: ActivityRecordsController.get_many(conn))
+
   get("/bookmarks", do: BookmarksController.get_many(conn))
 
   get("/health/:path" when path in ~w(live ready), do: HealthController.health(conn, path))

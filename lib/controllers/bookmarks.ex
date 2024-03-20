@@ -5,7 +5,7 @@ defmodule BookmarksController do
   import Plug.Conn, only: [put_resp_content_type: 2, send_resp: 3]
 
   @producer Application.compile_env(:poc_service, :producer_impl)
-  @storage Application.compile_env(:poc_service, :storage_impl)
+  @storage Application.compile_env(:poc_service, :bookmarks_storage_impl)
 
   def get_many(conn) do
     with {:ok, bookmarks} <- @storage.get_many(:bookmarks),
