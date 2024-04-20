@@ -23,6 +23,28 @@ defmodule BookmarksController do
     end
   end
 
+  def insert_one(conn) do
+    case conn.body_params do
+      %{} = bookmark ->
+        with {:ok, inserted} <- @storage.insert_one(:bookmarks, bookmark),
+             {:ok, nil} <- produce_activity_record(conn) do
+          conn
+          |> put_resp_content_type("application/json")
+          |> send_resp(:ok, Jason.encode!(inserted))
+        else
+          {:error, reason} ->
+            Logger.error("Inserting bookmark", reason: reason)
+
+            conn
+            |> put_resp_content_type("application/json")
+            |> send_resp(:internal_server_error, Jason.encode!(%{error: reason}))
+        end
+
+      _ ->
+        send_resp(conn, 400, "Invalid body")
+    end
+  end
+
   defp produce_activity_record(conn) do
     @producer.produce("mock.activity-records", false, [
       %ActivityRecord{

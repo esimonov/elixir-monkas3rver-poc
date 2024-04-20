@@ -14,6 +14,8 @@ defmodule POCService.Router do
 
   get("/bookmarks", do: BookmarksController.get_many(conn))
 
+  post("/bookmarks", do: BookmarksController.insert_one(conn))
+
   get("/health/:path" when path in ~w(live ready), do: HealthController.health(conn, path))
 
   match _ do

@@ -18,4 +18,8 @@ defmodule POCService.Storage.S3 do
       {:error, "Unlucky coin toss!"}
     end
   end
+
+  def insert_one(:activity_records, _any) do
+    {:error, "Not implemented"}
+  end
 end

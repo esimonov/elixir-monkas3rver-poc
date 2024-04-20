@@ -1,5 +1,5 @@
 defmodule POCService.Model.Bookmark do
-  defstruct [:name, :url, :date_added, :tags]
+  defstruct [:id, :name, :url, :date_added, :tags]
 
   defimpl Jason.Encoder do
     @impl Jason.Encoder
