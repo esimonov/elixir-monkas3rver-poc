@@ -24,6 +24,7 @@ defmodule POCService.MixProject do
     [
       {:jason, "~> 1.4"},
       {:logger_json, "~> 5.1"},
+      {:mongodb_driver, "~> 1.4"},
       {:plug_cowboy, "~> 2.7"}
     ]
   end

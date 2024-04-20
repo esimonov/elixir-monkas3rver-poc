@@ -9,6 +9,10 @@ defmodule POCService.Application do
   def start(_type, _args) do
     children = [
       {
+        Mongo,
+        Application.get_env(:poc_service, :mongo)
+      },
+      {
         Plug.Cowboy,
         scheme: :http,
         plug: POCService.Router,
