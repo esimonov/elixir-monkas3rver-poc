@@ -8,6 +8,10 @@ defmodule POCService.Application do
   @impl true
   def start(_type, _args) do
     children = [
+      %{
+        id: Kaffe.Consumer,
+        start: {Kaffe.Consumer, :start_link, []}
+      },
       {
         Mongo,
         Application.get_env(:poc_service, :mongo)

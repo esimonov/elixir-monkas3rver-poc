@@ -14,7 +14,7 @@ defmodule POCService.MixProject do
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
-      extra_applications: [:logger],
+      extra_applications: [:logger, :kaffe],
       mod: {POCService.Application, []}
     ]
   end
@@ -23,6 +23,7 @@ defmodule POCService.MixProject do
   defp deps do
     [
       {:jason, "~> 1.4"},
+      {:kaffe, "~> 1.25"},
       {:logger_json, "~> 5.1"},
       {:mongodb_driver, "~> 1.4"},
       {:plug_cowboy, "~> 2.7"}
